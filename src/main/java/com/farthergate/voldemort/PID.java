@@ -4,7 +4,7 @@ public class PID {
     public float kp;
     public float ki;
     public float kd;
-    public float t;
+    public float sampleTimeS;
 
     public float limMaxInt;
     public float limMinInt;
@@ -23,14 +23,14 @@ public class PID {
 
         float proportional = kp * error;
 
-        integrator = integrator + 0.5f * ki * t * (error + prevError);
+        integrator = integrator + 0.5f * ki * sampleTimeS * (error + prevError);
 
         if(integrator > limMaxInt) integrator = limMaxInt;
         else if(integrator < limMinInt) integrator = limMinInt;
         
         differentiator = -(2f * kd * (measurement - prevMeasurement)
-                       + (2f * tau - t) * differentiator)
-                       / (2f * tau + t);
+                       + (2f * tau - sampleTimeS) * differentiator)
+                       / (2f * tau + sampleTimeS);
 
         out = proportional + integrator + differentiator;
         if(out > limMax) out = limMax;
@@ -39,5 +39,23 @@ public class PID {
         prevError = error;
         prevMeasurement = measurement;
         return out;
+    }
+
+    public PID(float kp, float ki, float kd, float tau, float limMin, float limMax, float limMinInt, float limMaxInt, float sampleTimeS) {
+        integrator = 0;
+        prevError = 0;
+        differentiator = 0;
+        prevMeasurement = 0;
+        out = 0;
+
+        this.kp = kp;
+        this.ki = ki;
+        this.kd = kd;
+        this.tau = tau;
+        this.limMin = limMin;
+        this.limMax = limMax;
+        this.limMaxInt = limMaxInt;
+        this.limMinInt = limMinInt;
+        this.sampleTimeS = sampleTimeS;
     }
 }
