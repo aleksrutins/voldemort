@@ -36,8 +36,8 @@ public class PIDTest {
 
     @Test
     void testPID() {
-        var pid = new PID(PID_KP, PID_KI, PID_KD, PID_TAU, PID_LIM_MIN, PID_LIM_MAX, PID_LIM_MIN_INT, PID_LIM_MAX_INT, SAMPLE_TIME_S);
-        var system = new TestSystem();
+        PID pid = new PID(PID_KP, PID_KI, PID_KD, PID_TAU, PID_LIM_MIN, PID_LIM_MAX, PID_LIM_MIN_INT, PID_LIM_MAX_INT, SAMPLE_TIME_S);
+        TestSystem system = new TestSystem();
 
         float setpoint = 1f;
 
